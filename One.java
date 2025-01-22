@@ -4,52 +4,86 @@ public class One {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter the number of data entries: ");
+        System.out.print("Enter the number of employees: ");
         int n = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // consume newline
 
-        Data[] dataArray = new Data[n];
+        Employee[] employees = new Employee[n];
+        int count = 0;
 
-        for (int i = 0; i < n; i++) {
-            System.out.println("Enter details for entry " + (i + 1));
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Display Employees");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            switch (choice) {
+                case 1:
+                    if (count < n) {
+                        System.out.print("Enter Employee ID: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine(); // consume newline
 
-            System.out.print("Enter name: ");
-            String name = scanner.nextLine();
+                        System.out.print("Enter Employee Name: ");
+                        String name = scanner.nextLine();
 
-            System.out.print("Enter income: ");
-            double income = scanner.nextDouble();
+                        System.out.print("Enter Employee Department: ");
+                        String department = scanner.nextLine();
+                        System.out.print("Enter Employee Salary: ");
+                        double salary = scanner.nextDouble();
 
-            System.out.print("Enter house allowance: ");
-            double houseAllowance = scanner.nextDouble();
-            scanner.nextLine(); // Consume newline
+                        employees[count] = new Employee(id, name, department, salary);
+                        count++;
+                        System.out.println("Employee added successfully!");
+                    } else {
+                        System.out.println("Employee array is full!");
+                    }
+                    break;
 
-            dataArray[i] = new Data(name, income, houseAllowance);
+                case 2:
+                    if (count == 0) {
+                        System.out.println("No employees to display.");
+                    } else {
+                        System.out.println("\nEmployee Details:");
+                        for (int i = 0; i < count; i++) {
+                            employees[i].displayEmployee();
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exiting program. Goodbye!");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
-
-        System.out.println("\nStored Data:");
-        for (int i = 0; i < n; i++) {
-            dataArray[i].printData();
-            System.out.println();
-        }
-
-        scanner.close();
     }
 }
 
-class Data {
+
+
+
+
+class Employee {
+    int id;
     String name;
-    double income;
-    double houseAllowance;
+    String department;
+    double salary;
 
-    Data(String name, double income, double houseAllowance) {
+    Employee(int id, String name, String department, double salary) {
+        this.id = id;
         this.name = name;
-        this.income = income;
-        this.houseAllowance = houseAllowance;
+        this.department = department;
+        this.salary = salary;
     }
 
-    public void printData() {
-        System.out.println("Name: " + name);
-        System.out.println("Income: " + income);
-        System.out.println("House Allowance: " + houseAllowance);
+    void displayEmployee() {
+        System.out.printf("ID: %d, Name: %s, Department: %s, Salary: %.2f\n", id, name, department, salary);
     }
 }
+
+
